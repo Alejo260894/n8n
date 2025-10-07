@@ -1,0 +1,11 @@
+order_id;status;last_update;channel;customer_name;customer_email;sla_days
+1001;En preparaci¢n;2025-09-24;web;Ana P‚rez;ana.perez@example.com;5
+1002;En tr nsito;2025-10-05;web;Luis G¢mez;luis.gomez@example.com;5
+1003;Listo para despacho;2025-09-28;ML;Mar¡a D¡az;maria.diaz@example.com;5
+1004;En preparaci¢n;2025-09-18;web;Sof¡a L¢pez;sofia.lopez@example.com;5
+1005;Pago pendiente;2025-10-04;web;Pablo Ruiz;pablo.ruiz@example.com;5
+1006;En preparaci¢n;2025-09-30;ML;Carla Sosa;carla.sosa@example.com;3
+1007;En tr nsito;2025-09-25;web;Diego Ramos;diego.ramos@example.com;7
+1008;Entregado;2025-10-03;web;Mica Torres;mica.torres@example.com;5
+1009;En preparaci¢n;2025-09-27;ML;Juli n Vidal;julian.vidal@example.com;5
+1010;Listo para despacho;2025-09-20;web;Roc¡o Fern ndez;rocio.fernandez@example.com;5
