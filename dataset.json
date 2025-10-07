@@ -1,5 +1,4 @@
-[
-  {
+   {
     "order_id": 1001,
     "status": "En preparación",
     "last_update": "2025-09-24",
@@ -89,4 +88,3 @@
     "customer_email": "rocio.fernandez@example.com",
     "sla_days": 5
   }
-]
