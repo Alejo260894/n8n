@@ -3,95 +3,6 @@
   "nodes": [
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "d1c58b39-8c10-4fc9-82aa-31d3d69c37ea",
-              "leftValue": "={{ $json.days_since_update.days }}",
-              "rightValue": "={{ $json.sla_days }}",
-              "operator": {
-                "type": "number",
-                "operation": "gt"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        272,
-        -144
-      ],
-      "id": "0a30b6fe-21be-442d-af84-61f53ef32aea",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4",
-          "mode": "list",
-          "cachedResultName": "GPT-4"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "=Escribe un mensaje empático y breve para informar a un cliente\nque su pedido aún no ha sido actualizado, sin prometer fechas, detallando la orden a la que pertecene  {{ $json.order_id }} y el nombre de la persona {{ $json.customer_name }}",
-              "role": "system"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        736,
-        -496
-      ],
-      "id": "9cca315e-2bc5-4b84-a686-e1717afbf8ad",
-      "name": "Message a model",
-      "credentials": {
-        "openAiApi": {
-          "id": "fjTCUMNV92w2zcfX",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "sendTo": "alejosp2694@gmail.com",
-        "subject": "=Reporte {{ $('Programa para envio de reporte diario').item.json['Day of month'] }} de {{ $('Programa para envio de reporte diario').item.json['Day of week'] }} del {{ $('Programa para envio de reporte diario').item.json.Year }}",
-        "message": "={{ $json.message.content }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.1,
-      "position": [
-        1040,
-        -496
-      ],
-      "id": "d8829c04-3c1a-40dd-9672-19762b56f5c8",
-      "name": "Send a message",
-      "webhookId": "e223e836-c0d8-498d-ac66-574bb28dbf70",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "pZDKPEXgU3MSIVAo",
-          "name": "Gmail account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "operation": "appendOrUpdate",
         "documentId": {
           "__rl": true,
@@ -212,8 +123,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        528,
-        -496
+        608,
+        -560
       ],
       "id": "8f97b8fc-4372-4663-8f8d-4cc29e81eeac",
       "name": "Log",
@@ -239,7 +150,9 @@
         -144
       ],
       "id": "138ca2db-8866-4d7d-8c61-ee63ba4c14b3",
-      "name": "Programa para envio de reporte diario"
+      "name": "Programa para envio de reporte diario",
+      "notesInFlow": true,
+      "notes": "Este nodo se encargara de programar el reporte para las 9 am todos los dias"
     },
     {
       "parameters": {
@@ -255,25 +168,6 @@
       ],
       "id": "d2065389-f77a-4aba-8358-2e707339d3be",
       "name": "Ingreso de Datos"
-    },
-    {
-      "parameters": {
-        "operation": "getTimeBetweenDates",
-        "startDate": "={{ $json.last_update }}",
-        "endDate": "={{ $json.timestamp }}",
-        "outputFieldName": "days_since_update",
-        "options": {
-          "includeInputFields": true
-        }
-      },
-      "type": "n8n-nodes-base.dateTime",
-      "typeVersion": 2,
-      "position": [
-        64,
-        -144
-      ],
-      "id": "f26476d5-3aa1-4b37-a319-1e2b4762c6fe",
-      "name": "Diferencia de fecha SLA"
     },
     {
       "parameters": {
@@ -408,7 +302,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        528,
+        576,
         -240
       ],
       "id": "2f0035fc-a139-4e1e-ada5-9a73a9019bf2",
@@ -420,20 +314,6 @@
           "name": "Google Sheets account"
         }
       }
-    },
-    {
-      "parameters": {
-        "html": "=## 🚨 Reporte de Pedidos con Demora **Total demorados:** {{ $json[\"order_id\"]}} - Pedido **{{$json[\"order_id\"]}}** – Clientes: {{$json[\"customer_name\"]}}     Estado: {{$json[\"status\"]}}     Días sin actualización: {{$json[\"days_since_update\"]}} / SLA {{$json[\"sla_days\"]}}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.markdown",
-      "typeVersion": 1,
-      "position": [
-        752,
-        -240
-      ],
-      "id": "bfa33713-626b-4f6a-8dda-ba9e672a54d1",
-      "name": "Markdown"
     },
     {
       "parameters": {
@@ -557,8 +437,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        512,
-        16
+        544,
+        192
       ],
       "id": "76f169bb-50e6-4df4-8459-5144e2217350",
       "name": "Pedidos en tiempo",
@@ -573,17 +453,280 @@
       "parameters": {
         "binaryPropertyName": "={{ $('Ingreso de Datos').item.json.timestamp }}{{ $('Ingreso de Datos').item.json.order_id }}",
         "options": {
-          "delimiter": ";"
+          "delimiter": ";",
+          "fileName": "RESUMEN CSV.txt"
         }
       },
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        752,
+        784,
         -64
       ],
       "id": "0e49b499-dc4a-44ac-8768-692b482be437",
-      "name": "Convert to File"
+      "name": "Resumen CSV"
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "={{ $json.output }}",
+        "destinationKey": "Reporte",
+        "options": {
+          "completeHTMLDocument": true,
+          "emoji": true
+        }
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        -240
+      ],
+      "id": "bfa33713-626b-4f6a-8dda-ba9e672a54d1",
+      "name": "Reporte"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4",
+          "mode": "list",
+          "cachedResultName": "GPT-4"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Escribe un mensaje empático y breve para informar a un cliente\nque su pedido aún no ha sido actualizado, sin prometer fechas, detallando la orden a la que pertecene  {{ $json.order_id }} y el nombre de la persona {{ $json.customer_name }}",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        816,
+        -560
+      ],
+      "id": "9cca315e-2bc5-4b84-a686-e1717afbf8ad",
+      "name": "Mensaje de Respuesta",
+      "credentials": {
+        "openAiApi": {
+          "id": "fjTCUMNV92w2zcfX",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "alejosp2694@gmail.com",
+        "subject": "=Reporte {{ $('Programa para envio de reporte diario').item.json['Day of month'] }} de {{ $('Programa para envio de reporte diario').item.json['Day of week'] }} del {{ $('Programa para envio de reporte diario').item.json.Year }}",
+        "message": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        -560
+      ],
+      "id": "d8829c04-3c1a-40dd-9672-19762b56f5c8",
+      "name": "Enviar Mensaje",
+      "webhookId": "e223e836-c0d8-498d-ac66-574bb28dbf70",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pZDKPEXgU3MSIVAo",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=generar un resumen HTML con cantidad total de pedidos que estan retrasados {{ $json.count_order_id }} y elabora un cuadro con el detalle de cada pedido, esto diseñado de una manera simple pero entendible. No incluyas consejos ni sugerencias, solo el HTML listo para ser descargado.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -240
+      ],
+      "id": "871a0e32-978a-4434-b32d-19b8e1191cc7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1056,
+        -64
+      ],
+      "id": "87585bfb-1ebf-42df-8082-a3022414cf45",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "fjTCUMNV92w2zcfX",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "field": "order_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        784,
+        -240
+      ],
+      "id": "005e518e-725f-4167-8c63-8d7dd9f387dd",
+      "name": "Contador"
+    },
+    {
+      "parameters": {
+        "html": "{{ $json.output }}"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1504,
+        -240
+      ],
+      "id": "63021474-a6ac-4bbb-b9fa-7ef53711c686",
+      "name": "Resumen HTML"
+    },
+    {
+      "parameters": {
+        "content": "## Gestionar la Información resultante",
+        "height": 400,
+        "width": 1200,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        528,
+        -304
+      ],
+      "typeVersion": 1,
+      "id": "1e3b5d72-1859-4a8e-b588-157227e00d67",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Enviar mensaje a los Clientes con retraso",
+        "height": 240,
+        "width": 816,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        528,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "9e8d1623-c92a-445d-803f-27a2dde54cc3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Información complementaria\n",
+        "height": 240,
+        "width": 416,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "79cfb8f4-c14a-4480-be21-736b9da35d40",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1c58b39-8c10-4fc9-82aa-31d3d69c37ea",
+              "leftValue": "={{ $json.days_since_update.days }}",
+              "rightValue": "={{ $json.sla_days }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        -144
+      ],
+      "id": "0a30b6fe-21be-442d-af84-61f53ef32aea",
+      "name": "Definir que pedidos cumplen con el SLA"
+    },
+    {
+      "parameters": {
+        "content": "## Inicio y tratamiento de datos de entrada hasta su respectiva clasificación\n",
+        "height": 256,
+        "width": 928
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -496,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "9c60c4ea-c17f-4349-b8e1-466e0619a72b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "getTimeBetweenDates",
+        "startDate": "={{ $json.last_update }}",
+        "endDate": "={{ $json.timestamp }}",
+        "outputFieldName": "days_since_update",
+        "options": {
+          "includeInputFields": true
+        }
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        64,
+        -144
+      ],
+      "id": "f26476d5-3aa1-4b37-a319-1e2b4762c6fe",
+      "name": "Diferencia de fecha SLA"
     }
   ],
   "pinData": {
@@ -711,50 +854,11 @@
     ]
   },
   "connections": {
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Log",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Resumen",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Pedidos en tiempo",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Message a model": {
-      "main": [
-        [
-          {
-            "node": "Send a message",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send a message": {
-      "main": [
-        []
-      ]
-    },
     "Log": {
       "main": [
         [
           {
-            "node": "Message a model",
+            "node": "Mensaje de Respuesta",
             "type": "main",
             "index": 0
           }
@@ -783,36 +887,20 @@
         ]
       ]
     },
-    "Diferencia de fecha SLA": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Resumen": {
       "main": [
         [
           {
-            "node": "Markdown",
+            "node": "Resumen CSV",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Convert to File",
+            "node": "Contador",
             "type": "main",
             "index": 0
           }
         ]
-      ]
-    },
-    "Markdown": {
-      "main": [
-        []
       ]
     },
     "Pedidos en tiempo": {
@@ -820,9 +908,103 @@
         []
       ]
     },
-    "Convert to File": {
+    "Resumen CSV": {
       "main": [
         []
+      ]
+    },
+    "Reporte": {
+      "main": [
+        [
+          {
+            "node": "Resumen HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensaje de Respuesta": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Mensaje": {
+      "main": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Reporte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contador": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Definir que pedidos cumplen con el SLA": {
+      "main": [
+        [
+          {
+            "node": "Log",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Resumen",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pedidos en tiempo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Diferencia de fecha SLA": {
+      "main": [
+        [
+          {
+            "node": "Definir que pedidos cumplen con el SLA",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -830,7 +1012,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "9948d85c-0fe4-476a-a25b-78642707eb2e",
+  "versionId": "af2c39b4-9891-4b75-bd72-27f12a7e13a1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "ecda026fd61362dffb2054e6d75a4bc5d058363a6384a3d13993a30ede09de94"
