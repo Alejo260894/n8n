@@ -1,0 +1,15 @@
+[
+    {
+    "headers": {
+    "host": "n8n.instance.address"
+    
+    },
+    "params": {},
+    "query": {},
+    "body": {
+    "name": "Jim",
+    "age": 30,
+    "city": "New York"
+    }
+    }
+]
