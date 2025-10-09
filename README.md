@@ -86,7 +86,13 @@ Sino:
 
 ![alt text](Resumen_HTML.png)
 
+## Resumen CSV
 
+![alt text](RESUMEN_CSV.png)
 
+## Correos enviados y mensaje de correo
 
+![alt text](Correos_enviados_generados_por_OpenAI.png) 
+
+![alt text](Mensaje_Enviado.png)
 
