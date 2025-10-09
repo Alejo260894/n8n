@@ -82,6 +82,10 @@ Sino:
 
 ![alt text](Flujo.png)
 
+## Resumen en HTML
+
+![alt text](Resumen_HTML.png)
+
 
 
 
