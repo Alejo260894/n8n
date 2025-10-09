@@ -31,19 +31,25 @@ Define un conjunto de pedidos de ejemplo (JSON) con campos:
     - Carga o recibe los pedidos a procesar.
 
 3. Diferencia de fecha SLA
-    - Calcula los días desde la última actualización (days_since_update).
+    - Calcula los días transcurridos entre timestamp y last_update.
+    - Resultado: campo days_since_update.
 
 4. If (Condición SLA)
-    - Compara days_since_update.days con sla_days.
+    - Evalúa si days_since_update.days > sla_days.
+    - Si se cumple → Fuera de SLA.
+    - Si no → En tiempo.
 
 5. Si el pedido supera el SLA, continúa por la rama True; de lo contrario, por False.
-    - Rama True (fuera de SLA)
-    - Log: Registra el pedido en la hoja “Fuera de SLA”.
-    - Message a model: Llama al modelo de OpenAI para redactar un mensaje empático.
-    - Send a message: Envía el mensaje por Gmail.
-    - Resumen: Actualiza la hoja “Reporte” con todos los pedidos demorados.
-    - Markdown: Genera un reporte visual HTML del día.
-    - Convert to File: Convierte el reporte en archivo CSV para registro o envío.
+
+| Nodo                           | Función                                                                                   |
+| ------------------------------ | ----------------------------------------------------------------------------------------- |
+| **Log**                        | Registra el pedido en la hoja de Google Sheets *“Fuera de SLA”*.                          |
+| **Mensaje de Respuesta (GPT)** | Genera un texto empático personalizado para el cliente usando OpenAI.                     |
+| **Enviar mensaje (Gmail)**     | Envía el correo con el mensaje generado.                                                  |
+| **Resumen**                    | Guarda los casos fuera de SLA en la hoja *“Reporte”*.                                     |
+| **Markdown (HTML Report)**     | Crea un resumen visual en formato HTML con detalle y cantidad de pedidos demorados.       |
+| **Convertir a Archivo (CSV)**  | Genera un archivo CSV con los mismos datos del reporte para exportación o almacenamiento. |
+
 
 6. Rama False (en tiempo)
     - Pedidos en tiempo: Registra el pedido en la hoja “Dentro de SLA”.
@@ -65,6 +71,11 @@ Si days_since_update.days > sla_days:
     -> Enviar correo
 Sino:
     -> Registrar en “Pedidos en tiempo”
+
+## 📈 Salidas generadas
+    Hoja de seguimiento actualizada con pedidos fuera de SLA.
+    Correo automático enviado al cliente con tono empático.
+    Reporte HTML y CSV con totales y detalle por pedido.
 
 
 ## Diagrama de Flujo
