@@ -1,0 +1,8 @@
+﻿order_id;timestamp;status;last_update;days_since_update;sla_days;channel;customer_email;customer_name
+1001;2025-10-07;En preparación;2025-09-24;13;5;web;ana.perez@example.com;Ana Pérez
+1003;2025-10-07;Listo para despacho;2025-09-28;9;5;ML;maria.diaz@example.com;María Díaz
+1004;2025-10-07;En preparación;2025-09-18;19;5;web;sofia.lopez@example.com;Sofía López
+1006;2025-10-07;En preparación;2025-09-30;7;3;ML;carla.sosa@example.com;Carla Sosa
+1007;2025-10-07;En tránsito;2025-09-25;12;7;web;diego.ramos@example.com;Diego Ramos
+1009;2025-10-07;En preparación;2025-09-27;10;5;ML;julian.vidal@example.com;Julián Vidal
+1010;2025-10-07;Listo para despacho;2025-09-20;17;5;web;rocio.fernandez@example.com;Rocío Fernández
