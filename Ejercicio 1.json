@@ -1,0 +1,840 @@
+{
+  "name": "Ejercicio 1",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1c58b39-8c10-4fc9-82aa-31d3d69c37ea",
+              "leftValue": "={{ $json.days_since_update.days }}",
+              "rightValue": "={{ $json.sla_days }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        -144
+      ],
+      "id": "0a30b6fe-21be-442d-af84-61f53ef32aea",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4",
+          "mode": "list",
+          "cachedResultName": "GPT-4"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Escribe un mensaje empático y breve para informar a un cliente\nque su pedido aún no ha sido actualizado, sin prometer fechas, detallando la orden a la que pertecene  {{ $json.order_id }} y el nombre de la persona {{ $json.customer_name }}",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        736,
+        -496
+      ],
+      "id": "9cca315e-2bc5-4b84-a686-e1717afbf8ad",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "fjTCUMNV92w2zcfX",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "alejosp2694@gmail.com",
+        "subject": "=Reporte {{ $('Programa para envio de reporte diario').item.json['Day of month'] }} de {{ $('Programa para envio de reporte diario').item.json['Day of week'] }} del {{ $('Programa para envio de reporte diario').item.json.Year }}",
+        "message": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1040,
+        -496
+      ],
+      "id": "d8829c04-3c1a-40dd-9672-19762b56f5c8",
+      "name": "Send a message",
+      "webhookId": "e223e836-c0d8-498d-ac66-574bb28dbf70",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pZDKPEXgU3MSIVAo",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1yCWgaSuobhN_VaF4kFqlVeqxt1s8_eoIIu0---webtk",
+          "mode": "list",
+          "cachedResultName": "Ejercicio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yCWgaSuobhN_VaF4kFqlVeqxt1s8_eoIIu0---webtk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1421489667,
+          "mode": "list",
+          "cachedResultName": "Fuera de SLA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yCWgaSuobhN_VaF4kFqlVeqxt1s8_eoIIu0---webtk/edit#gid=1421489667"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "order_id": "={{ $json.order_id }}",
+            "status": "={{ $json.status }}",
+            "last_update": "={{ $json.last_update }}",
+            "channel": "={{ $json.channel }}",
+            "customer_name": "={{ $json.customer_name }}",
+            "customer_email": "={{ $json.customer_email }}",
+            "sla_days": "={{ $json.sla_days }}",
+            "days_since_update": "={{ $json.days_since_update }}"
+          },
+          "matchingColumns": [
+            "order_id"
+          ],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "last_update",
+              "displayName": "last_update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sla_days",
+              "displayName": "sla_days",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "days_since_update",
+              "displayName": "days_since_update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        -496
+      ],
+      "id": "8f97b8fc-4372-4663-8f8d-4cc29e81eeac",
+      "name": "Log",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9CnFohwvbDs2sCPq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -384,
+        -144
+      ],
+      "id": "138ca2db-8866-4d7d-8c61-ee63ba4c14b3",
+      "name": "Programa para envio de reporte diario"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "=[\n{\n\"id\": \n1,\n\"nombre\": \n\"Ana\",\n\"correo\": \n\"ana@example.com\",\n\"edad\": \n28\n},\n{\n\"id\": \n2,\n\"nombre\": \n\"Luis\",\n\"correo\": \n\"luis@example.com\",\n\"edad\": \n32\n},\n{\n\"id\": \n3,\n\"nombre\": \n\"Marta\",\n\"correo\": \n\"marta@example.com\",\n\"edad\": \n25\n}\n]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        -144
+      ],
+      "id": "d2065389-f77a-4aba-8358-2e707339d3be",
+      "name": "Ingreso de Datos"
+    },
+    {
+      "parameters": {
+        "operation": "getTimeBetweenDates",
+        "startDate": "={{ $json.last_update }}",
+        "endDate": "={{ $json.timestamp }}",
+        "outputFieldName": "days_since_update",
+        "options": {
+          "includeInputFields": true
+        }
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        64,
+        -144
+      ],
+      "id": "f26476d5-3aa1-4b37-a319-1e2b4762c6fe",
+      "name": "Diferencia de fecha SLA"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wHygH8ZGraEPzuleVo5aaBWQSiPH2fjwn-8SnuyhhYQ",
+          "mode": "list",
+          "cachedResultName": "Reporte",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wHygH8ZGraEPzuleVo5aaBWQSiPH2fjwn-8SnuyhhYQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Reporte",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wHygH8ZGraEPzuleVo5aaBWQSiPH2fjwn-8SnuyhhYQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "order_id": "={{ $json.order_id }}",
+            "timestamp": "={{ $json.timestamp }}",
+            "status": "={{ $json.status }}",
+            "last_update": "={{ $json.last_update }}",
+            "days_since_update": "={{ $json.days_since_update.days }}",
+            "sla_days": "={{ $json.sla_days }}",
+            "channel": "={{ $json.channel }}",
+            "customer_email": "={{ $json.customer_email }}",
+            "customer_name": "={{ $json.customer_name }}"
+          },
+          "matchingColumns": [
+            "order_id"
+          ],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "last_update",
+              "displayName": "last_update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sla_days",
+              "displayName": "sla_days",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "days_since_update",
+              "displayName": "days_since_update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        -240
+      ],
+      "id": "2f0035fc-a139-4e1e-ada5-9a73a9019bf2",
+      "name": "Resumen",
+      "executeOnce": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9CnFohwvbDs2sCPq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "html": "=## 🚨 Reporte de Pedidos con Demora **Total demorados:** {{ $json[\"order_id\"]}} - Pedido **{{$json[\"order_id\"]}}** – Clientes: {{$json[\"customer_name\"]}}     Estado: {{$json[\"status\"]}}     Días sin actualización: {{$json[\"days_since_update\"]}} / SLA {{$json[\"sla_days\"]}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        752,
+        -240
+      ],
+      "id": "bfa33713-626b-4f6a-8dda-ba9e672a54d1",
+      "name": "Markdown"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1yCWgaSuobhN_VaF4kFqlVeqxt1s8_eoIIu0---webtk",
+          "mode": "list",
+          "cachedResultName": "Ejercicio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yCWgaSuobhN_VaF4kFqlVeqxt1s8_eoIIu0---webtk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Lista mensajes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yCWgaSuobhN_VaF4kFqlVeqxt1s8_eoIIu0---webtk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "order_id": "={{ $json.order_id }}",
+            "status": "={{ $json.status }}",
+            "last_update": "={{ $json.last_update }}",
+            "channel": "={{ $json.channel }}",
+            "customer_name": "={{ $json.customer_name }}",
+            "customer_email": "={{ $json.customer_email }}",
+            "sla_days": "={{ $json.sla_days }}",
+            "days_since_update": "={{ $json.days_since_update }}"
+          },
+          "matchingColumns": [
+            "order_id"
+          ],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "last_update",
+              "displayName": "last_update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sla_days",
+              "displayName": "sla_days",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "days_since_update",
+              "displayName": "days_since_update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        512,
+        16
+      ],
+      "id": "76f169bb-50e6-4df4-8459-5144e2217350",
+      "name": "Pedidos en tiempo",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9CnFohwvbDs2sCPq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "={{ $('Ingreso de Datos').item.json.timestamp }}{{ $('Ingreso de Datos').item.json.order_id }}",
+        "options": {
+          "delimiter": ";"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        -64
+      ],
+      "id": "0e49b499-dc4a-44ac-8768-692b482be437",
+      "name": "Convert to File"
+    }
+  ],
+  "pinData": {
+    "Ingreso de Datos": [
+      {
+        "json": {
+          "order_id": 1001,
+          "status": "En preparación",
+          "last_update": "2025-09-24",
+          "channel": "web",
+          "customer_name": "Ana Pérez",
+          "customer_email": "ana.perez@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1002,
+          "status": "En tránsito",
+          "last_update": "2025-10-05",
+          "channel": "web",
+          "customer_name": "Luis Gómez",
+          "customer_email": "luis.gomez@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1003,
+          "status": "Listo para despacho",
+          "last_update": "2025-09-28",
+          "channel": "ML",
+          "customer_name": "María Díaz",
+          "customer_email": "maria.diaz@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1004,
+          "status": "En preparación",
+          "last_update": "2025-09-18",
+          "channel": "web",
+          "customer_name": "Sofía López",
+          "customer_email": "sofia.lopez@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1005,
+          "status": "Pago pendiente",
+          "last_update": "2025-10-04",
+          "channel": "web",
+          "customer_name": "Pablo Ruiz",
+          "customer_email": "pablo.ruiz@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1006,
+          "status": "En preparación",
+          "last_update": "2025-09-30",
+          "channel": "ML",
+          "customer_name": "Carla Sosa",
+          "customer_email": "carla.sosa@example.com",
+          "sla_days": 3,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1007,
+          "status": "En tránsito",
+          "last_update": "2025-09-25",
+          "channel": "web",
+          "customer_name": "Diego Ramos",
+          "customer_email": "diego.ramos@example.com",
+          "sla_days": 7,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1008,
+          "status": "Entregado",
+          "last_update": "2025-10-03",
+          "channel": "web",
+          "customer_name": "Mica Torres",
+          "customer_email": "mica.torres@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1009,
+          "status": "En preparación",
+          "last_update": "2025-09-27",
+          "channel": "ML",
+          "customer_name": "Julián Vidal",
+          "customer_email": "julian.vidal@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      },
+      {
+        "json": {
+          "order_id": 1010,
+          "status": "Listo para despacho",
+          "last_update": "2025-09-20",
+          "channel": "web",
+          "customer_name": "Rocío Fernández",
+          "customer_email": "rocio.fernandez@example.com",
+          "sla_days": 5,
+          "timestamp": "2025-10-07"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Log",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Resumen",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pedidos en tiempo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Log": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Programa para envio de reporte diario": {
+      "main": [
+        [
+          {
+            "node": "Ingreso de Datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ingreso de Datos": {
+      "main": [
+        [
+          {
+            "node": "Diferencia de fecha SLA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Diferencia de fecha SLA": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resumen": {
+      "main": [
+        [
+          {
+            "node": "Markdown",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Markdown": {
+      "main": [
+        []
+      ]
+    },
+    "Pedidos en tiempo": {
+      "main": [
+        []
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9948d85c-0fe4-476a-a25b-78642707eb2e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ecda026fd61362dffb2054e6d75a4bc5d058363a6384a3d13993a30ede09de94"
+  },
+  "id": "2CG0SFscxoX8HOOP",
+  "tags": []
+}
